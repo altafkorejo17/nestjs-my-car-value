@@ -20,9 +20,6 @@ export class AuthService {
             throw new BadRequestException("Email is in use");
         }
 
-        //Hash the user password
-        
-        //Generate a salt
         const salt = randomBytes(8).toString("hex");
         const hash = (await scrypt(password, salt, 32)) as Buffer;
 
@@ -42,7 +39,7 @@ export class AuthService {
 
         const hash = await (scrypt(password, salt, 32)) as Buffer;
         if(storedHash !== hash.toString('hex')) {
-            throw new BadRequestException("");
+            throw new BadRequestException("User password is invalid");
         }
         return user;
     }
